@@ -21,7 +21,9 @@ Get-TempEnv 'SSH_AUTH_SOCK'
 
 Set-Alias ggs Get-GitStatus
 Set-Alias ggb Get-GitBranch
-Set-Alias ggc Get-GitCommit
+Set-Alias ggco Get-GitCommit
+Set-Alias ggi Get-GitItem
+Set-Alias ggc Get-GitContent
 
 
 Export-ModuleMember -Alias * -Function * -Cmdlet *

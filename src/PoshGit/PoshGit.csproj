@@ -49,10 +49,14 @@
     <Compile Include="Commands\CompareGitRepoCommand.cs" />
     <Compile Include="Commands\GetGitBranchCommand.cs" />
     <Compile Include="Commands\GetGitCommitCommand.cs" />
+    <Compile Include="Commands\GetGitContentCommand.cs" />
     <Compile Include="Commands\GetGitStatusCommand.cs" />
+    <Compile Include="Commands\GetGitItemCommand.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Model\CommitData.cs" />
     <Compile Include="Model\ExceptionHelper.cs" />
     <Compile Include="Model\GitIndexStatusHelper.cs" />
+    <Compile Include="Model\GitItemData.cs" />
     <Compile Include="Model\GitLogHelper.cs" />
     <Compile Include="Model\GitStatus.cs" />
     <Compile Include="Model\GitStatusHelper.cs" />

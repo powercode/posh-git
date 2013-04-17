@@ -21,8 +21,9 @@ namespace PoshGit.Commands
             LiteralPath = string.IsNullOrEmpty(LiteralPath)
                               ? SessionState.Path.CurrentFileSystemLocation.ProviderPath
                               : GetUnresolvedProviderPathFromPSPath(LiteralPath);
-            
-            using(var commitEnumerator = GitLogHelper.EnumerateCommits(LiteralPath, Reference)){
+
+            using (var commitEnumerator = GitLogHelper.EnumerateCommits(LiteralPath, Reference))
+            {
                 WriteObject(commitEnumerator.Commits, true);
             }
         }

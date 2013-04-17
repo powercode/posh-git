@@ -30,7 +30,7 @@ namespace PoshGit.Model
                     branch = repo.Branches[reference];
                 }
                 IEnumerable<CommitData> commits = from c in branch.Commits
-                                                  select new CommitData(c);
+                                                  select new CommitData(c, repoPath);
                 return new CommitEnumerator(repo, commits);
             }
             catch
