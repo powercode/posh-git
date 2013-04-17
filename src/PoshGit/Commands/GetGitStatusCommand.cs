@@ -6,7 +6,7 @@ using PoshGit.Model;
 namespace PoshGit.Commands
 {
     [Cmdlet(VerbsCommon.Get, "GitStatus")]
-    [OutputType(typeof (RepositoryStatus))]
+    [OutputType(typeof (StatusEntry))]
     public class GetGitStatusCommand : PSCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true)]

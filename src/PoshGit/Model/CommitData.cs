@@ -18,8 +18,7 @@ namespace PoshGit.Model
             AuthorEmail = commit.Author.Email;
             AuthorName = commit.Author.Name;
             Id = commit.Id;
-            Encoding = commit.Encoding;
-            Notes = commit.Notes.ToArray();
+            Encoding = commit.Encoding;            
         }
 
         public string AuthorName { get; private set; }
@@ -32,8 +31,7 @@ namespace PoshGit.Model
 
         public string AuthorEmail { get; private set; }
 
-        protected ObjectId[] Parents { get; private set; }
-        public Note[] Notes { get; set; }
+        protected ObjectId[] Parents { get; private set; }        
 
         public string Encoding { get; private set; }
 

@@ -16,6 +16,7 @@ TestResults
 *.user
 *.sln.docstates
 src/PoshGit.v11.suo
+src/PoshGit/PoshGit.csproj.user
 
 # Build results
 [Dd]ebug/
