@@ -1,0 +1,23 @@
+﻿<Types>
+    <Type>
+     <Name>LibGit2Sharp.Branch</Name>
+    <Members>
+    <AliasProperty>
+          <Name>Branch</Name>
+          <ReferencedMemberName>CanonicalName</ReferencedMemberName>
+      </AliasProperty>
+    </Members>
+  </Type>
+      <Type>
+     <Name>LibGit2Sharp.StatusEntry</Name>
+    <Members>
+           <CodeProperty IsHidden="true">
+                <Name>Status</Name>
+                <GetCodeReference>
+                    <TypeName>PoshGit.Model.GitIndexStatusHelper</TypeName>
+                    <MethodName>Status</MethodName>
+                </GetCodeReference>
+            </CodeProperty>
+    </Members>
+  </Type>
+</Types>

@@ -1,5 +1,7 @@
 if (Get-Module posh-git) { return }
 
+Import-Module $psScriptRoot\bin\PoshGit.dll
+
 Push-Location $psScriptRoot
 .\CheckVersion.ps1 > $null
 
@@ -16,24 +18,11 @@ if (!$Env:HOME) { $Env:HOME = "$Env:USERPROFILE" }
 Get-TempEnv 'SSH_AGENT_PID'
 Get-TempEnv 'SSH_AUTH_SOCK'
 
-Export-ModuleMember `
-    -Alias @(
-        '??') `
-    -Function @(
-        'Invoke-NullCoalescing',
-        'Write-GitStatus',
-        'Write-Prompt',
-        'Get-GitStatus', 
-        'Enable-GitColors', 
-        'Get-GitDirectory',
-        'TabExpansion',
-        'Get-AliasPattern',
-        'Get-SshAgent',
-        'Start-SshAgent',
-        'Stop-SshAgent',
-        'Add-SshKey',
-        'Get-SshPath',
-        'Update-AllBranches',
-        'tgit')
 
+Set-Alias ggs Get-GitStatus
+Set-Alias ggb Get-GitBranch
+Set-Alias ggc Get-GitCommit
+
+
+Export-ModuleMember -Alias * -Function * -Cmdlet *
 
