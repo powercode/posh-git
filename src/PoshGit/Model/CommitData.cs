@@ -22,6 +22,7 @@ namespace PoshGit.Model
             Id = commit.Id;
             Encoding = commit.Encoding;
             TreeId = commit.Tree.Id;
+            IsMerge = Parents.Count > 1;
         }
 
         public ObjectId Id { get; private set; }
@@ -36,6 +37,7 @@ namespace PoshGit.Model
         public string CommitterEmail { get; private set; }
         public DateTimeOffset CommitterWhen { get; private set; }
 
+        public bool IsMerge { get; private set; }
         public string Encoding { get; private set; }
         public string RepositoryPath { get; private set; }
         public string Subject { get; private set; }
