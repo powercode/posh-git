@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using PoshGit.Properties;
 
 namespace PoshGit.Model
@@ -9,6 +10,18 @@ namespace PoshGit.Model
         public PathIsNotRepositoryException(string fullname) : base(ResourceStrings.Format(Resources.PathIsNotARepo, fullname))
         {
             
+        }
+
+        public PathIsNotRepositoryException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected PathIsNotRepositoryException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
+        public PathIsNotRepositoryException()
+        {
         }
     }
 }

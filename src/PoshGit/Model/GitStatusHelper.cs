@@ -59,6 +59,7 @@ namespace PoshGit.Model
             void IDisposable.Dispose()
             {
                 Dispose(true);
+                GC.SuppressFinalize(this);
             }
 
             ~StatusEnumerator()

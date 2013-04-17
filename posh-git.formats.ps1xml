@@ -2,6 +2,38 @@
     <!-- ################ VIEW DEFINITIONS ################ -->
 
     <ViewDefinitions>
+      <View>
+            <Name>default</Name>
+            <ViewSelectedBy>
+                <TypeName>PoshGit.Model.CommitData</TypeName>                
+            </ViewSelectedBy>            
+            <ListControl>
+                <ListEntries>
+                    <ListEntry>                        
+                        <ListItems>
+                            <ListItem>
+                           	    <PropertyName>Id</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                           	    <PropertyName>Parents</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                           	    <PropertyName>AuthorName</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                           	    <PropertyName>AuthorEmail</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                           	    <PropertyName>AuthorWhen</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                           	    <PropertyName>Subject</PropertyName>
+                            </ListItem>                            
+                        </ListItems>
+                    </ListEntry>
+                </ListEntries>
+            </ListControl>
+        </View>
        <View>
             <Name>default</Name>
             <ViewSelectedBy>
@@ -55,8 +87,8 @@
                    <TableColumnHeader>  
                       <Label>Commit</Label>                    
                       <Width>10</Width>                                            
-                   </TableColumnHeader>
-                    <TableColumnHeader>
+                   </TableColumnHeader>                  
+                   <TableColumnHeader>
                         <Label>AuthorDate</Label>
                         <Width>21</Width>                        
                     </TableColumnHeader>
@@ -134,36 +166,7 @@
                     </TableRowEntry>
                 </TableRowEntries>
             </TableControl>
-        </View>
-         <View>
-            <Name>default</Name>
-            <ViewSelectedBy>
-                <TypeName>PoshGit.Model.CommitData</TypeName>                
-            </ViewSelectedBy>            
-            <ListControl>
-                <ListEntries>
-                    <ListEntry>                        
-                        <ListItems>
-                            <ListItem>
-                           	    <PropertyName>Id</PropertyName>
-                            </ListItem>
-                            <ListItem>
-                           	    <PropertyName>AuthorName</PropertyName>
-                            </ListItem>
-                            <ListItem>
-                           	    <PropertyName>AuthorEmail</PropertyName>
-                            </ListItem>
-                            <ListItem>
-                           	    <PropertyName>AuthorWhen</PropertyName>
-                            </ListItem>
-                            <ListItem>
-                           	    <PropertyName>Subject</PropertyName>
-                            </ListItem>                            
-                        </ListItems>
-                    </ListEntry>
-                </ListEntries>
-            </ListControl>
-        </View>
+        </View>         
          <View>
             <Name>detail</Name>
             <ViewSelectedBy>
@@ -175,6 +178,9 @@
                         <ListItems>
                             <ListItem>
                            	    <PropertyName>Id</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                           	    <PropertyName>Parents</PropertyName>
                             </ListItem>
                             <ListItem>
                            	    <PropertyName>AuthorName</PropertyName>
