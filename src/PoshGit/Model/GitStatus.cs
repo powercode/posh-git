@@ -3,8 +3,8 @@
     public enum GitStatus
     {
         None,
-        Added,
-        Modified,
+        ToBeCommitted,
+        NotStagedForCommit,
         Untracked
     }
 }

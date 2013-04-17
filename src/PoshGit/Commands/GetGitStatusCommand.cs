@@ -26,8 +26,9 @@ namespace PoshGit.Commands
                 filterpath = GetUnresolvedProviderPathFromPSPath(LiteralPath);
             }
 
-            var statusEnumerator = GitStatusHelper.GetStatusEnumerator(statusPath, filterpath);
-            WriteObject(statusEnumerator.Status, true);
+            using(var statusEnumerator = GitStatusHelper.GetStatusEnumerator(statusPath, filterpath)){
+                WriteObject(statusEnumerator.Status, true);
+            }
         }
     }
 }

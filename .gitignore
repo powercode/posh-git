@@ -3,6 +3,8 @@
 */PoshGit/[Oo]bj/
 */PoshGit.Tests/[Bb]in/
 */PoshGit.Tests/[Oo]bj/
+bin/PoshGit.dll.CodeAnalysisLog.xml
+bin/PoshGit.dll.lastcodeanalysissucceeded
 # mstest test results
 TestResults
 
