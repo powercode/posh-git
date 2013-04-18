@@ -22,14 +22,14 @@ namespace PoshGit.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PoshGit.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PoshGit.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PoshGit.Properties.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,65 @@ namespace PoshGit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checking out to {0}.
+        /// </summary>
+        internal static string CheckoutProgressActivityFormat_Local {
+            get {
+                return ResourceManager.GetString("CheckoutProgressActivityFormat_Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}/{1}).
+        /// </summary>
+        internal static string CheckoutProgressStatusFormat_Completed_Total {
+            get {
+                return ResourceManager.GetString("CheckoutProgressStatusFormat_Completed_Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The path &apos;{0}&apos; is not a valid Git repository..
         /// </summary>
-        internal static string PathIsNotARepo {
+        internal static string PathIsNotARepoFormat_Path {
             get {
-                return ResourceManager.GetString("PathIsNotARepo", resourceCulture);
+                return ResourceManager.GetString("PathIsNotARepoFormat_Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The path &apos;{0} is not an existing directory..
+        /// </summary>
+        internal static string PathMustBeAnExistingDirectoryFormat_Directory {
+            get {
+                return ResourceManager.GetString("PathMustBeAnExistingDirectoryFormat_Directory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloning from {0}.
+        /// </summary>
+        internal static string TransferProgressActivityFormat_Source {
+            get {
+                return ResourceManager.GetString("TransferProgressActivityFormat_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bytes received: {0}.
+        /// </summary>
+        internal static string TransferProgressCurrentOperation_Format {
+            get {
+                return ResourceManager.GetString("TransferProgressCurrentOperation_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}/{1}).
+        /// </summary>
+        internal static string TransferProgressStatusFormat_completed_total {
+            get {
+                return ResourceManager.GetString("TransferProgressStatusFormat_completed_total", resourceCulture);
             }
         }
     }

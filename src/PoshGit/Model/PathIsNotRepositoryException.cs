@@ -7,7 +7,7 @@ namespace PoshGit.Model
     [Serializable]
     public class PathIsNotRepositoryException : Exception
     {
-        public PathIsNotRepositoryException(string fullname) : base(ResourceStrings.Format(Resources.PathIsNotARepo, fullname))
+        public PathIsNotRepositoryException(string fullname) : base(ResourceStrings.Format(Strings.PathIsNotARepoFormat_Path, fullname))
         {
             
         }

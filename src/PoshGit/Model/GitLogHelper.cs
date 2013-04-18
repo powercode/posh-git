@@ -1,10 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
+using PoshGit.Model;
 
 namespace PoshGit.Model
 {
+
+    internal static class GitCloneHelper
+    {
+        internal static Task Clone(string repository, string workdirPath, bool bare, bool checkout, TransferProgressHandler transferProgress, CheckoutProgressHandler checkoutProgress, CancellationToken cancellationToken)
+        {
+            return Task.Factory.StartNew(() =>
+                                      {
+                                          using (
+                                              Repository.Clone(repository, workdirPath, bare, checkout, transferProgress,
+                                                               checkoutProgress))
+                                          {
+                                          }
+                                      }, cancellationToken);
+        }    
+    }
+
     internal static class GitLogHelper
     {
         internal static CommitEnumerator EnumerateCommits(string fullname, string reference)

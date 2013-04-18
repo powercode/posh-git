@@ -24,6 +24,8 @@ Set-Alias ggb Get-GitBranch
 Set-Alias ggco Get-GitCommit
 Set-Alias ggi Get-GitItem
 Set-Alias ggc Get-GitContent
+Set-Alias ngr New-GitRepository
+Set-Alias cpgr Copy-GitRepository
 
 
 Export-ModuleMember -Alias * -Function * -Cmdlet *

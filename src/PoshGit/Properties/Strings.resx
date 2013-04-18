@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PathIsNotARepo" xml:space="preserve">
+  <data name="CheckoutProgressActivityFormat_Local" xml:space="preserve">
+    <value>Checking out to {0}</value>
+    <comment>{0} is the local working directory</comment>
+  </data>
+  <data name="CheckoutProgressStatusFormat_Completed_Total" xml:space="preserve">
+    <value>({0}/{1})</value>
+    <comment>{0} is completed items, {1} is total items</comment>
+  </data>
+  <data name="PathIsNotARepoFormat_Path" xml:space="preserve">
     <value>The path '{0}' is not a valid Git repository.</value>
     <comment>{0} is the fullname of a file system path</comment>
+  </data>
+  <data name="PathMustBeAnExistingDirectoryFormat_Directory" xml:space="preserve">
+    <value>The path '{0} is not an existing directory.</value>
+    <comment>{0} is the fullname of a file system path</comment>
+  </data>
+  <data name="TransferProgressActivityFormat_Source" xml:space="preserve">
+    <value>Cloning from {0}</value>
+    <comment>{0} is the source uri</comment>
+  </data>
+  <data name="TransferProgressCurrentOperation_Format" xml:space="preserve">
+    <value>Bytes received: {0}</value>
+    <comment>{0} is the number of bytes received</comment>
+  </data>
+  <data name="TransferProgressStatusFormat_completed_total" xml:space="preserve">
+    <value>({0}/{1})</value>
+    <comment>{0} is completed items, {1} is total items</comment>
   </data>
 </root>
