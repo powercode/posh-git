@@ -1,4 +1,5 @@
-﻿using System.Management.Automation;
+﻿using System;
+using System.Management.Automation;
 using LibGit2Sharp;
 
 namespace PoshGit.Commands
@@ -6,9 +7,8 @@ namespace PoshGit.Commands
     [Cmdlet(VerbsCommon.Get, "GitContent")]
     [OutputType(typeof (string))]
     [OutputType(typeof (byte[]))]
-    public class GetGitContentCommand : PSCmdlet
-    {
-        [Alias("PSPath", "RepositoryPath")]
+    public sealed class GetGitContentCommand : PSCmdlet, IDisposable
+    {[Alias("PSPath", "RepositoryPath")]
         [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true)]
         public string LiteralPath { get; set; }
 
@@ -32,32 +32,37 @@ namespace PoshGit.Commands
                 repoPath = Repository.Discover(LiteralPath);
                 repository = new Repository(repoPath);
             }
-            try
+            
+            var blob = repository.Lookup<Blob>(Id);
+            if (blob.IsBinary && !ExcludeBinary)
             {
-                var blob = repository.Lookup<Blob>(Id);
-                if (blob.IsBinary && !ExcludeBinary)
-                {
-                    WriteObject(blob.Content);
-                }
-                else
-                {
-                    
-                    WriteObject(blob.ContentAsUtf8());
-                }
+                WriteObject(blob.Content);
             }
-            catch
+            else
+            {
+                    
+                WriteObject(blob.ContentAsUtf8());
+            }            
+        }
+        
+
+        ~GetGitContentCommand()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        private void Dispose(bool disposed)
+        {
+            if (disposed)
             {
                 repository.Dispose();
                 repository = null;
-                repoPath = null;
-            }
-        }
-
-        protected override void EndProcessing()
-        {
-            if (repository != null)
-            {
-                repository.Dispose();
             }
         }
     }

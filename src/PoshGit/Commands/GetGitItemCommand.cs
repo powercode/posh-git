@@ -8,7 +8,7 @@ namespace PoshGit.Commands
 {
     [Cmdlet(VerbsCommon.Get, "GitItem")]
     [OutputType(typeof(GitItemData))]
-    public class GetGitItemCommand : PSCmdlet
+    public sealed class GetGitItemCommand : PSCmdlet
     {
         [Alias("PSPath", "RepositoryPath")]        
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = true)]
@@ -18,9 +18,9 @@ namespace PoshGit.Commands
         public ObjectId TreeId { get; set; }
 
         [Parameter(Position = 1)]
-        public string[] Include { get; set; }
+        public string[] Include {  get; set; }
         [Parameter]
-        public string[] Exclude { get; set; }
+        public string[] Exclude {  get; set; }
 
         private Repository repository;
         private string repositoryPath;
@@ -61,7 +61,7 @@ namespace PoshGit.Commands
             repository = new Repository(repositoryPath);
         }
 
-        private static WildcardPattern[] CreatePatterns(string[] pattern)
+        private static WildcardPattern[] CreatePatterns(IEnumerable<string> pattern)
         {
             return (from p in pattern
                     select new WildcardPattern(p, WildcardOptions.IgnoreCase)).ToArray();

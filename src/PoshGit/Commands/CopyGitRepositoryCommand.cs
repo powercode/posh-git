@@ -11,7 +11,7 @@ namespace PoshGit.Commands
 {
     [Cmdlet(VerbsCommon.Copy, "GitRepository", DefaultParameterSetName = "Path")]
     [OutputType(typeof (DirectoryInfo))]
-    public class CopyGitRepositoryCommand : PSCmdlet
+    public sealed class CopyGitRepositoryCommand : PSCmdlet, IDisposable
     {
         [Parameter(Mandatory = true, Position = 1, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "Path")]        
         public string SourcePath { get; set; }
@@ -32,6 +32,9 @@ namespace PoshGit.Commands
 
         private readonly BlockingCollection<ProgressRecord> progressCollection =
             new BlockingCollection<ProgressRecord>();
+
+        private int checkoutPercentComplete;
+        private int transferPercentComplete;
 
         protected override void StopProcessing()
         {
@@ -72,17 +75,23 @@ namespace PoshGit.Commands
 
         private void OnCheckoutProgress(string path, int completedsteps, int totalsteps)
         {
-            var percentComplete = completedsteps*100/totalsteps;
+            var newPercentComplete = completedsteps*100/totalsteps;
+            if (newPercentComplete == checkoutPercentComplete) return;
+
+            checkoutPercentComplete = newPercentComplete;
             var activity = ResourceStrings.Format(Strings.CheckoutProgressActivityFormat_Local, LiteralPath);
             var status = ResourceStrings.Format(Strings.CheckoutProgressStatusFormat_Completed_Total, completedsteps,
-                                                   totalsteps);
-            var progressRecord = new ProgressRecord(2, activity, status) {PercentComplete = percentComplete};
+                                                totalsteps);
+            var progressRecord = new ProgressRecord(2, activity, status) {PercentComplete = checkoutPercentComplete};
             progressCollection.Add(progressRecord);
         }
 
         private int OnTransferProgress(TransferProgress progress)
         {
             var percentComplete = progress.ReceivedObjects*100/progress.TotalObjects;
+            if (percentComplete == transferPercentComplete) return Stopping ? -1 : 0;
+
+            transferPercentComplete = percentComplete;
             var activity = ResourceStrings.Format(Strings.TransferProgressActivityFormat_Source, SourceUri);
             var status = ResourceStrings.Format(Strings.TransferProgressStatusFormat_completed_total,
                                                 progress.ReceivedObjects, progress.TotalObjects);
@@ -100,6 +109,26 @@ namespace PoshGit.Commands
                 return -1;
             }
             return 0;
+        }
+
+        ~CopyGitRepositoryCommand()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        private void Dispose(bool disposed)
+        {
+            if (disposed)
+            {
+                progressCollection.Dispose();
+                cancellationTokenSource.Dispose();                
+            }
         }
     }
 }
