@@ -18,15 +18,8 @@ namespace PoshGit.Model
 
             try
             {  
-                if (String.IsNullOrEmpty(reference))
-                {
-                    var branch = (from b in repo.Branches
-                              where b.IsCurrentRepositoryHead
-                              select b).Single();
-                    filter.Since = branch.Tip;
-                }
                 var commits = from c in repo.Commits.QueryBy(filter)
-                                select new CommitData(c, repoPath);
+                              select new CommitData(c, repoPath);
                 return new CommitEnumerator(repo, commits);                
             }
             catch

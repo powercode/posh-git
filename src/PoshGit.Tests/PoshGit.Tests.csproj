@@ -40,6 +40,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Management.Automation"/>
     <Reference Include="xunit">
       <HintPath>..\..\Lib\xUnit\xunit.dll</HintPath>
     </Reference>

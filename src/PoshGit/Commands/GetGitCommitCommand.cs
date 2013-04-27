@@ -26,6 +26,11 @@ namespace PoshGit.Commands
         [Parameter()]
         public SwitchParameter ReverseOrder { get; set; }
 
+        public GetGitCommitCommand()
+        {
+            Reference = "HEAD";
+        }
+
         
         protected override void ProcessRecord()
         {
