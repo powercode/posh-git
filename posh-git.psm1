@@ -20,6 +20,7 @@ Get-TempEnv 'SSH_AUTH_SOCK'
 
 
 Set-Alias ggs Get-GitStatus
+Set-Alias ggt Get-GitTag
 Set-Alias ggb Get-GitBranch
 Set-Alias ggco Get-GitCommit
 Set-Alias ggi Get-GitItem

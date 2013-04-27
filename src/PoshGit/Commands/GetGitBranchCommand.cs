@@ -1,15 +1,15 @@
 using System.Linq;
 using System.Management.Automation;
 using LibGit2Sharp;
-using Microsoft.PowerShell.Commands;
 
 namespace PoshGit.Commands
 {
     [Cmdlet(VerbsCommon.Get, "GitBranch")]
-    [OutputType(typeof(Branch))]
+    [OutputType(typeof (Branch))]
     public class GetGitBranchCommand : PSCmdlet
     {
-        [Parameter]
+        [Alias("PSPath")]
+        [Parameter(ValueFromPipelineByPropertyName = true)]
         public string LiteralPath { get; set; }
 
         [Parameter]
@@ -17,22 +17,13 @@ namespace PoshGit.Commands
 
         protected override void ProcessRecord()
         {
-            if (string.IsNullOrEmpty(LiteralPath))
-            {
-                LiteralPath = CurrentProviderLocation(FileSystemProvider.ProviderName).ProviderPath;
-            }
+            LiteralPath = string.IsNullOrEmpty(LiteralPath)
+                              ? SessionState.Path.CurrentFileSystemLocation.ProviderPath
+                              : GetUnresolvedProviderPathFromPSPath(LiteralPath);
             var repoPath = Repository.Discover(LiteralPath);
             using (var repo = new Repository(repoPath))
             {
-                
-                if (All)
-                {
-                    WriteObject(repo.Branches, true);
-                }
-                else
-                {
-                    WriteObject(repo.Branches.Where(b=>b.IsRemote == false), true);
-                }
+                WriteObject(All ? repo.Branches : repo.Branches.Where(b => b.IsRemote == false), true);
             }
         }
     }

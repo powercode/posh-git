@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using LibGit2Sharp;
@@ -7,30 +8,31 @@ using PoshGit.Model;
 namespace PoshGit.Commands
 {
     [Cmdlet(VerbsCommon.Get, "GitItem")]
-    [OutputType(typeof(GitItemData))]
-    public sealed class GetGitItemCommand : PSCmdlet
+    [OutputType(typeof (GitItemData))]
+    public sealed class GetGitItemCommand : PSCmdlet, IDisposable
     {
-        [Alias("PSPath", "RepositoryPath")]        
+        [Alias("PSPath", "RepositoryPath")]
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = true)]
         public string LiteralPath { get; set; }
 
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = true)]
-        public ObjectId TreeId { get; set; }
+        public ObjectId Id { get; set; }
 
         [Parameter(Position = 1)]
-        public string[] Include {  get; set; }
+        public string[] Include { get; set; }
+
         [Parameter]
-        public string[] Exclude {  get; set; }
+        public string[] Exclude { get; set; }
 
         private Repository repository;
         private string repositoryPath;
         private WildcardPattern[] includePatterns;
         private WildcardPattern[] excludePatterns;
-
+        
 
         private bool ShouldWriteItem(GitItemData item)
         {
-            if ((excludePatterns != null && excludePatterns.Any(p=>p.IsMatch(item.Fullname))))
+            if ((excludePatterns != null && excludePatterns.Any(p => p.IsMatch(item.Fullname))))
             {
                 return false;
             }
@@ -58,6 +60,9 @@ namespace PoshGit.Commands
                 LiteralPath = SessionState.Path.CurrentFileSystemLocation.ProviderPath;
             }
             repositoryPath = Repository.Discover(LiteralPath);
+            if (repositoryPath == null){
+                ExceptionHelper.ThrowInvalidRepositoryPath(LiteralPath);
+            }
             repository = new Repository(repositoryPath);
         }
 
@@ -65,7 +70,6 @@ namespace PoshGit.Commands
         {
             return (from p in pattern
                     select new WildcardPattern(p, WildcardOptions.IgnoreCase)).ToArray();
-
         }
 
         protected override void EndProcessing()
@@ -76,31 +80,20 @@ namespace PoshGit.Commands
             }
         }
 
-        private void WriteTreeObject(IEnumerable<TreeEntry> tree)
-        {
-            foreach(var entry in tree){
-                if (entry.Type == GitObjectType.Tree)
-                {
-                    WriteTreeObject((Tree)entry.Target);
-                }
-                else
-                {
-                    var item = new GitItemData(entry, repositoryPath);
-                    if (ShouldWriteItem(item))
-                    {
-                        WriteObject(item);    
-                    }
-                    
-                }
-            }
-        }
-
         protected override void ProcessRecord()
-        {            
+        {
             try
             {
-                var tree = repository.Lookup<Tree>(TreeId);
-                WriteTreeObject(tree);
+                
+                var commit = repository.Lookup<Commit>(Id);
+                var parent = commit.Parents.FirstOrDefault();
+                {
+                    var parentTree = parent == null ? null : parent.Tree;
+                    var changes = repository.Diff.Compare(parentTree, commit.Tree);
+                    WriteObject(changes, true);
+                }
+                
+
             }
             catch
             {
@@ -108,5 +101,13 @@ namespace PoshGit.Commands
                 repository = null;
             }
         }
+        
+        public void Dispose()
+        {
+            if (repository != null)
+            {
+                repository.Dispose();
+            }
+        }        
     }
 }

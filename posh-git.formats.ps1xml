@@ -289,5 +289,71 @@
         </ListEntries>
       </ListControl>
     </View>
+
+    <!--LibGit2Sharp.Tag-->
+    <View>
+      <Name>default</Name>
+      <ViewSelectedBy>
+        <TypeName>PoshGit.Model.TagData</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Width>15</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>30</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Width>40</Width>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>CanonicalName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Target</PropertyName>
+              </TableColumnItem>              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>default</Name>
+      <ViewSelectedBy>
+        <TypeName>PoshGit.Model.TagData</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>CanonicalName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Target</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Tagger</Label>
+                <ScriptBlock>if ($_.Tagger){$_.Tagger.Name}</ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Message</PropertyName>
+              </ListItem>              
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
