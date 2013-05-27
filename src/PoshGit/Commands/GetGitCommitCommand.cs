@@ -53,7 +53,7 @@ namespace PoshGit.Commands
                 filter.Until = Until;
             }
 
-            using (var commitEnumerator = GitCommitHelper.EnumerateCommits(LiteralPath, Reference, filter))
+            using (var commitEnumerator = GitCommitHelper.EnumerateCommits(LiteralPath, filter))
             {
                 var commits = commitEnumerator.Commits;
                 if (PagingParameters.IncludeTotalCount)

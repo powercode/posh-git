@@ -20,7 +20,7 @@ namespace PoshGit.Tests
                 repo.Reset(ResetOptions.Hard);
                 repo.RemoveUntrackedFiles();                
 
-                using (var commitHelper = Model.GitCommitHelper.EnumerateCommits(path, "test", new Filter{Since="test"}))
+                using (var commitHelper = Model.GitCommitHelper.EnumerateCommits(path, new Filter{Since="test"}))
                 {
                     Assert.Equal(2, commitHelper.Commits.Count());
                     var first = commitHelper.Commits.First();
@@ -48,7 +48,7 @@ namespace PoshGit.Tests
                 repo.Reset(ResetOptions.Hard);
                 repo.RemoveUntrackedFiles();
 
-                using (var commitHelper = Model.GitCommitHelper.EnumerateCommits(path, "test", new Filter { }))
+                using (var commitHelper = Model.GitCommitHelper.EnumerateCommits(path, new Filter { }))
                 {
                     Assert.Equal(9, commitHelper.Commits.Count());
                     var first = commitHelper.Commits.First();
@@ -98,10 +98,25 @@ namespace PoshGit.Tests
                 Assert.Equal("e90810b8df3e80c413d903f631643c716887138d", first.Id.Sha);
             }
         }
+
+        [Fact]
+        public void GetCmdletCommitsFirstSkip()
+        {
+            string path = CloneStandardTestRepo();
+            using (var ps = PowerShell.Create())
+            {
+                ps.AddCommand("Get-GitCommit");
+                ps.AddParameter("LiteralPath", path);
+                ps.AddParameter("First", 4);
+                ps.AddParameter("Skip", 2 );
+                ps.AddParameter("Reference", "master");
+                var output = ps.Invoke<CommitData>();
+                Assert.Equal(4, output.Count());
+
+                var first = output.First();
+                Assert.Equal("4c062a6361ae6959e06292c1fa5e2822d9c96345", first.Id.Sha);
+            }
+        }
         
-
     }
-
-
-
 }

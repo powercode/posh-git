@@ -7,7 +7,7 @@ namespace PoshGit.Model
 {
     internal static class GitCommitHelper
     {
-        internal static CommitEnumerator EnumerateCommits(string repository, string reference, Filter filter)
+        internal static CommitEnumerator EnumerateCommits(string repository, Filter filter)
         {
             var repoPath = Repository.Discover(repository);
             if (String.IsNullOrEmpty(repoPath))

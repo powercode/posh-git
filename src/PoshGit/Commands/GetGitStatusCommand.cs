@@ -11,23 +11,24 @@ namespace PoshGit.Commands
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true)]
         [Alias("PSPath")]
-        public string LiteralPath { get; set; }
+        public string[] LiteralPath { get; set; }
 
 
         protected override void ProcessRecord()
         {
-            var statusPath = String.IsNullOrEmpty(LiteralPath)
-                                    ? SessionState.Path.CurrentFileSystemLocation.ProviderPath
-                                    : GetUnresolvedProviderPathFromPSPath(LiteralPath);
 
-            var filterpath = statusPath;
-            if (!String.IsNullOrEmpty(LiteralPath))
+            if (LiteralPath == null)
             {
-                filterpath = GetUnresolvedProviderPathFromPSPath(LiteralPath);
+                LiteralPath = new[] {SessionState.Path.CurrentFileSystemLocation.ProviderPath};
             }
+            foreach(var p in LiteralPath){
+                var statusPath = GetUnresolvedProviderPathFromPSPath(p);                                        
 
-            using(var statusEnumerator = GitStatusHelper.GetStatusEnumerator(statusPath, filterpath)){
-                WriteObject(statusEnumerator.Status, true);
+                var filterpath = statusPath;
+                
+                using(var statusEnumerator = GitStatusHelper.GetStatusEnumerator(statusPath, filterpath)){
+                    WriteObject(statusEnumerator.Status, true);
+                }
             }
         }
     }
