@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using LibGit2Sharp;
-using LibGit2Sharp.Core;
-using Xunit;
-
-namespace PoshGit.Tests.TestHelpers
+﻿namespace PoshGit.Tests.TestHelpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
+    using LibGit2Sharp;
+    using LibGit2Sharp.Core;
+
+    using PoshGit.Model;
+
+    using Xunit;
+
     public class BaseFixture : IPostTestDirectoryRemover, IDisposable
     {
+        /// <summary>
+        /// The directories.
+        /// </summary>
         private readonly List<string> directories = new List<string>();
 
         static BaseFixture()
@@ -116,6 +123,8 @@ namespace PoshGit.Tests.TestHelpers
 #if LEAKS
             GC.Collect();
 #endif
+
+            GitRepositoryFactory.Instance.Clear();
 
             foreach (string directory in directories)
             {

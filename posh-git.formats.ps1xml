@@ -5,14 +5,14 @@
     <View>
       <Name>default</Name>
       <ViewSelectedBy>
-        <TypeName>PoshGit.Model.CommitData</TypeName>
+        <TypeName>LibGit2Sharp.Commit</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
           <ListEntry>
             <ListItems>
               <ListItem>
-                <PropertyName>Id</PropertyName>
+                <PropertyName>Sha</PropertyName>
               </ListItem>
               <ListItem>
                 <PropertyName>Parents</PropertyName>
@@ -37,16 +37,16 @@
     <View>
       <Name>default</Name>
       <ViewSelectedBy>
-        <TypeName>PoshGit.Model.CommitData</TypeName>
+        <TypeName>LibGit2Sharp.Commit</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Commit</Label>
+            <Label>Sha</Label>
             <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>AuthorDate</Label>
+            <Label>AuthorWhen</Label>
             <Width>21</Width>
           </TableColumnHeader>
           <TableColumnHeader>

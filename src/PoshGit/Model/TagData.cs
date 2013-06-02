@@ -2,10 +2,13 @@
 
 namespace PoshGit.Model
 {
+    using System.Diagnostics.Contracts;
+
     public class TagData
     {
         public TagData(Tag tag)
         {
+            Contract.Requires(tag != null);
             Target = tag.Target.Id;
             Name = tag.Name;
             CanonicalName = tag.CanonicalName;

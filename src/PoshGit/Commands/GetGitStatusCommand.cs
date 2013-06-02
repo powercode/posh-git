@@ -1,35 +1,32 @@
-using System;
-using System.Management.Automation;
-using LibGit2Sharp;
-using PoshGit.Model;
-
 namespace PoshGit.Commands
-{
+{    
+    using System.Management.Automation;
+
+    using LibGit2Sharp;
+
+    using PoshGit.Model;
+
+    /// <summary>
+    /// The PowerShell equivalent of the "git status" command.
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "GitStatus")]
-    [OutputType(typeof (StatusEntry))]
-    public class GetGitStatusCommand : PSCmdlet
+    [OutputType(typeof(StatusEntry))]
+    public sealed class GetGitStatusCommand : GitCommandBase
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true)]
-        [Alias("PSPath")]
-        public string[] LiteralPath { get; set; }
-
-
+        /// <summary>
+        /// The process record.
+        /// </summary>
         protected override void ProcessRecord()
         {
+            var statusPath = LiteralPath;
 
-            if (LiteralPath == null)
+            var filterpath = statusPath;
+
+            var repo = GetLiteralPathRepository();            
+            using (var statusEnumerator = GitStatusHelper.GetStatusEnumerator(repo, statusPath, filterpath))
             {
-                LiteralPath = new[] {SessionState.Path.CurrentFileSystemLocation.ProviderPath};
+                WriteObject(statusEnumerator.Status, true);
             }
-            foreach(var p in LiteralPath){
-                var statusPath = GetUnresolvedProviderPathFromPSPath(p);                                        
-
-                var filterpath = statusPath;
-                
-                using(var statusEnumerator = GitStatusHelper.GetStatusEnumerator(statusPath, filterpath)){
-                    WriteObject(statusEnumerator.Status, true);
-                }
-            }
-        }
+        }        
     }
 }

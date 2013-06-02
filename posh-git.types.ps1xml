@@ -19,5 +19,51 @@
         </GetCodeReference>
       </CodeProperty>
     </Members>
-  </Type>  
+  </Type>
+  <Type>
+    <Name>LibGit2Sharp.Commit</Name>
+    <Members>
+      <AliasProperty>
+        <Name>Subject</Name>
+        <ReferencedMemberName>MessageShort</ReferencedMemberName>
+      </AliasProperty>
+      <ScriptProperty>
+        <Name>AuthorName</Name>
+        <GetScriptBlock>
+          $this.Author.Name
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>AuthorEmail</Name>
+        <GetScriptBlock>
+          $this.Author.Email
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>AuthorWhen</Name>
+        <GetScriptBlock>
+          $this.Author.When
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>CommitterName</Name>
+        <GetScriptBlock>
+          $this.Committer.Name
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>CommitterEmail</Name>
+        <GetScriptBlock>
+          $this.Committer.Email
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>CommitterWhen</Name>
+        <GetScriptBlock>
+          $this.Committer.When
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  
 </Types>

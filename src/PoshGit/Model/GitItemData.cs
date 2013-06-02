@@ -3,10 +3,15 @@ using LibGit2Sharp;
 
 namespace PoshGit.Model
 {
+    using System;
+    using System.Diagnostics.Contracts;
+
     public class GitItemData
     {
         internal GitItemData(TreeEntry entry, string repositoryPath)
         {
+            Contract.Requires(entry != null);
+            Contract.Requires(!String.IsNullOrEmpty(repositoryPath));
             RepositoryPath = repositoryPath;
             RelativePath = entry.Path;
             Target = entry.Target;
@@ -22,11 +27,17 @@ namespace PoshGit.Model
         public string PSPath { get { return Fullname; } }
         public string Fullname
         {
-            get { return Path.Combine(Path.GetDirectoryName(RepositoryPath.TrimEnd(Path.DirectorySeparatorChar)), RelativePath); }
+            get
+            {
+                var directoryName = Path.GetDirectoryName(RepositoryPath.TrimEnd(Path.DirectorySeparatorChar));
+                Contract.Assert(directoryName != null);
+                return Path.Combine(directoryName, RelativePath);
+            }
         }
         public GitObject Target { get; private set; }
 
 
         public string RepositoryPath { get; private set; }
+
     }
 }

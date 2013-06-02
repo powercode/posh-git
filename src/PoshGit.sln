@@ -5,16 +5,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoshGit", "PoshGit\PoshGit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoshGit.Tests", "PoshGit.Tests\PoshGit.Tests.csproj", "{84F5FBB9-37CF-4948-9D1D-72AD2E5B607A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9045114C-EA09-4976-AB3E-FA38898F506E}"
+	ProjectSection(SolutionItems) = preProject
+		..\posh-git.psd1 = ..\posh-git.psd1
+		..\posh-git.psm1 = ..\posh-git.psm1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_CC|Any CPU = Debug_CC|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{416057CD-E262-45F8-8F33-CDCE189278FF}.Debug_CC|Any CPU.ActiveCfg = Debug_CC|Any CPU
+		{416057CD-E262-45F8-8F33-CDCE189278FF}.Debug_CC|Any CPU.Build.0 = Debug_CC|Any CPU
 		{416057CD-E262-45F8-8F33-CDCE189278FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{416057CD-E262-45F8-8F33-CDCE189278FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{416057CD-E262-45F8-8F33-CDCE189278FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{416057CD-E262-45F8-8F33-CDCE189278FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84F5FBB9-37CF-4948-9D1D-72AD2E5B607A}.Debug_CC|Any CPU.ActiveCfg = Debug_CC|Any CPU
+		{84F5FBB9-37CF-4948-9D1D-72AD2E5B607A}.Debug_CC|Any CPU.Build.0 = Debug_CC|Any CPU
 		{84F5FBB9-37CF-4948-9D1D-72AD2E5B607A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84F5FBB9-37CF-4948-9D1D-72AD2E5B607A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84F5FBB9-37CF-4948-9D1D-72AD2E5B607A}.Release|Any CPU.ActiveCfg = Release|Any CPU

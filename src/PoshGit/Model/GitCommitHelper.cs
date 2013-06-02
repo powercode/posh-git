@@ -1,68 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+
 using LibGit2Sharp;
 
 namespace PoshGit.Model
 {
+    using System.Diagnostics.Contracts;
+
     internal static class GitCommitHelper
     {
-        internal static CommitEnumerator EnumerateCommits(string repository, Filter filter)
+        /// <summary>
+        /// The enumerate commits.
+        /// </summary>
+        /// <param name="repo">
+        /// The repo.
+        /// </param>
+        /// <param name="filter">
+        /// The filter.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
+        internal static IEnumerable<Commit> EnumerateCommits(Repository repo, Filter filter)
         {
-            var repoPath = Repository.Discover(repository);
-            if (String.IsNullOrEmpty(repoPath))
-            {
-                ExceptionHelper.ThrowInvalidRepositoryPath(repository);
-            }
-            var repo = new Repository(repoPath);
-
-            try
-            {  
-                var commits = from c in repo.Commits.QueryBy(filter)
-                              select new CommitData(c, repoPath);
-                return new CommitEnumerator(repo, commits);                
-            }
-            catch
-            {
-                repo.Dispose();
-                throw;
-            }
-        }
-
-        internal sealed class CommitEnumerator : IDisposable
-        {
-            private readonly IEnumerable<CommitData> enumerable;
-            private readonly Repository repo;
-
-            internal CommitEnumerator(Repository repo, IEnumerable<CommitData> enumerable)
-            {
-                this.repo = repo;
-                this.enumerable = enumerable;
-            }
-
-            public IEnumerable<CommitData> Commits
-            {
-                get { return enumerable; }
-            }
-
-            void IDisposable.Dispose()
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            ~CommitEnumerator()
-            {
-                Dispose(false);
-            }
-
-            private void Dispose(bool disposed)
-            {
-                if (disposed)
-                {
-                    repo.Dispose();
-                }
-            }
-        }
+            Contract.Requires(repo != null);
+            Contract.Requires(filter != null);                                                
+            var commits = repo.Commits.QueryBy(filter);
+            return commits;
+        }        
     }
 }
