@@ -28,6 +28,9 @@ Set-Alias ggc Get-GitContent
 Set-Alias ngr New-GitRepository
 Set-Alias cpgr Copy-GitRepository
 Set-Alias swgb Switch-GitBranch
+Set-Alias agi Add-GitItem
+Set-Alias rgi Remove-GitItem
+Set-Alias sbgi Submit-GitIndex
 
 if(!$global:options){	
 	$global:options = @{CustomArgumentCompleters = @{};NativeArgumentCompleters = @{}}	

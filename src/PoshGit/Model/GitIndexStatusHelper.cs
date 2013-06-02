@@ -43,7 +43,7 @@
         {
             Contract.Requires(statusEntry != null);            
             var state = statusEntry.State;
-            if ((state.HasFlag(FileStatus.Added) || state.HasFlag(FileStatus.Staged)) && !state.HasFlag(FileStatus.Modified))
+            if (state.HasFlag(FileStatus.Added) || state.HasFlag(FileStatus.Staged))
             {
                 return GitStatus.ToBeCommitted;
             }

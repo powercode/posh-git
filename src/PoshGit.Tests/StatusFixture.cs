@@ -18,7 +18,8 @@ namespace PoshGit.Tests
                 ps.AddParameter("LiteralPath", filePath);
                 var output = ps.Invoke<StatusEntry>();
                 Assert.Equal(1, output.Count);
-
+                Assert.Equal(FileStatus.Added, output[0].State);
+                Assert.Equal("new_tracked_file.txt", output[0].FilePath);
             }
         }
     }

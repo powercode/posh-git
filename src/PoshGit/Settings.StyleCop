@@ -3,6 +3,7 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>cmdlet</Value>
       <Value>git</Value>
+      <Value>Hashtable</Value>
       <Value>libgit</Value>
     </CollectionProperty>
   </GlobalSettings>

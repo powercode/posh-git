@@ -126,6 +126,7 @@
     <Reference Include="System.Management.Automation" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddGitItemCommand.cs" />
     <Compile Include="Commands\CompareGitRepoCommand.cs" />
     <Compile Include="Commands\CopyGitRepositoryCommand.cs" />
     <Compile Include="Commands\GetGitBranchCommand.cs" />
@@ -136,6 +137,8 @@
     <Compile Include="Commands\GetGitTagCommand.cs" />
     <Compile Include="Commands\GitCommandBase.cs" />
     <Compile Include="Commands\GitReferenceCommandBase.cs" />
+    <Compile Include="Commands\RemoveGitItemCommand.cs" />
+    <Compile Include="Commands\SubmitGitItem.cs" />
     <Compile Include="Commands\SwitchGitBranchCommand.cs" />
     <Compile Include="Model\GitRepositoryFactory.cs" />
     <Compile Include="Commands\NewGitRepositoryCommand.cs" />

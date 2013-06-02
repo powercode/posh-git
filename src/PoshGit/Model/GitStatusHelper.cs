@@ -17,116 +17,35 @@
         /// </summary>
         /// <param name="repository">
         /// The repository.
-        /// </param>        
-        /// <param name="fullname">
-        /// The full name.
         /// </param>
         /// <param name="filterPath">
         /// The filter path.
         /// </param>
         /// <returns>
-        /// The <see cref="StatusEnumerator"/>.
+        /// The <see cref="IEnumerable"/>.
         /// </returns>
-        internal static StatusEnumerator GetStatusEnumerator(Repository repository, string fullname, string filterPath)
+        internal static IEnumerable<StatusEntry> GetStatusEnumerator(Repository repository,  string filterPath)
         {
             Contract.Requires(repository != null);
-            Contract.Requires(!string.IsNullOrEmpty(fullname));
-            try
+            Contract.Requires(!string.IsNullOrEmpty(filterPath));
+
+            var workingDirectory = repository.Info.WorkingDirectory.TrimEnd(new[] { '\\' });
+
+            IEnumerable<StatusEntry> status;
+            if (string.Compare(workingDirectory, filterPath, StringComparison.OrdinalIgnoreCase) == 0)
             {
-                IEnumerable<StatusEntry> status;
-                if (fullname == filterPath || string.IsNullOrEmpty(filterPath))
-                {
-                    status = repository.Index.RetrieveStatus().OrderBy(GitIndexStatusHelper.Status);
-                }
-                else
-                {
-                    var rel = filterPath.Substring(repository.Info.Path.Length - 5);
-                    status =
-                        repository.Index.RetrieveStatus()
-                            .OrderBy(GitIndexStatusHelper.Status)
-                            .Where(fs => fs.FilePath.StartsWith(rel, StringComparison.OrdinalIgnoreCase));
-                }
-
-                return new StatusEnumerator(repository, status);
+                status = repository.Index.RetrieveStatus().OrderBy(GitIndexStatusHelper.Status);
             }
-            catch
-            {
-                repository.Dispose();
-                throw;
+            else
+            {                
+                var rel = filterPath.Substring(workingDirectory.Length + 1);                
+                status =
+                    repository.Index.RetrieveStatus()
+                        .OrderBy(GitIndexStatusHelper.Status)
+                        .Where(fs => fs.FilePath.StartsWith(rel, StringComparison.OrdinalIgnoreCase));
             }
-        }
-    }
 
-    /// <summary>
-    ///     The status enumerator.
-    /// </summary>
-    internal class StatusEnumerator : IDisposable
-    {
-        /// <summary>
-        ///     The repo.
-        /// </summary>
-        private readonly Repository repo;
-
-        /// <summary>
-        /// The status.
-        /// </summary>
-        private readonly IEnumerable<StatusEntry> status;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StatusEnumerator"/> class.
-        /// </summary>
-        /// <param name="repo">
-        /// The repo.
-        /// </param>
-        /// <param name="status">
-        /// The status.
-        /// </param>
-        public StatusEnumerator(Repository repo, IEnumerable<StatusEntry> status)
-        {
-            this.repo = repo;
-            this.status = status;
-        }
-
-        /// <summary>
-        /// Finalizes an instance of the <see cref="StatusEnumerator"/> class. 
-        /// </summary>
-        ~StatusEnumerator()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Gets the status.
-        /// </summary>
-        public IEnumerable<StatusEntry> Status
-        {
-            get
-            {
-                return status;
-            }
-        }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        void IDisposable.Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposed">
-        /// The disposed.
-        /// </param>
-        private void Dispose(bool disposed)
-        {
-            if (disposed)
-            {
-                repo.Dispose();
-            }
+            return status;
         }
     }
 }

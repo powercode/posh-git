@@ -80,12 +80,12 @@
     <View>
       <Name>detail</Name>
       <ViewSelectedBy>
-        <TypeName>PoshGit.Model.CommitData</TypeName>
+        <TypeName>LibGit2Sharp.Commit</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Commit</Label>
+            <Label>Sha</Label>
             <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -110,7 +110,7 @@
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
-                <ScriptBlock>$_.Id.Sha.SubString(0, 10)</ScriptBlock>
+                <ScriptBlock>$_.Sha.SubString(0, 10)</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>$_.AuthorWhen.LocalDateTime</ScriptBlock>
@@ -131,6 +131,47 @@
           </TableRowEntry>
         </TableRowEntries>
       </TableControl>
+    </View>   
+    <View>
+      <Name>detail</Name>
+      <ViewSelectedBy>
+        <TypeName>LibGit2Sharp.Commit</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Sha</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Parents</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>AuthorName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>AuthorEmail</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>AuthorWhen</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>CommitterName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>CommitterEmail</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>CommitterWhen</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Message</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
     </View>
     <View>
       <Name>default</Name>
@@ -168,47 +209,6 @@
       </TableControl>
     </View>
     <View>
-      <Name>detail</Name>
-      <ViewSelectedBy>
-        <TypeName>PoshGit.Model.CommitData</TypeName>
-      </ViewSelectedBy>
-      <ListControl>
-        <ListEntries>
-          <ListEntry>
-            <ListItems>
-              <ListItem>
-                <PropertyName>Id</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>Parents</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>AuthorName</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>AuthorEmail</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>AuthorWhen</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>CommitterName</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>CommitterEmail</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>CommitterWhen</PropertyName>
-              </ListItem>
-              <ListItem>
-                <PropertyName>Message</PropertyName>
-              </ListItem>
-            </ListItems>
-          </ListEntry>
-        </ListEntries>
-      </ListControl>
-    </View>
-    <View>
       <Name>default</Name>
       <ViewSelectedBy>
         <TypeName>LibGit2Sharp.StatusEntry</TypeName>
@@ -239,6 +239,7 @@
         </TableRowEntries>
       </TableControl>
     </View>
+
 
     <!--LibGit2Sharp.TreeEntry-->
     <View>

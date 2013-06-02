@@ -33,7 +33,7 @@
 
             set
             {
-                literalPath = value;
+                literalPath = GetUnresolvedProviderPathFromPSPath(value);
             }
         }
 

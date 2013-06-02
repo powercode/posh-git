@@ -9,6 +9,8 @@
     using System.Management.Automation.Language;
     using System.Reflection;
 
+    using LibGit2Sharp;
+
     using PoshGit.Model;
 
     /// <summary>
@@ -30,7 +32,7 @@
 		[string] $ParameterName,
 		[string] $WordToComplete,	
 		[System.Management.Automation.Language.CommandAst] $Ast,
-		[string] $FakeBoundParameter
+		[System.Collections.Hashtable] $FakeBoundParameter
 	)
 
 	[PoshGit.GitTabCompleter]::Complete($Command, $ParameterName, $WordToComplete, $Ast, $FakeBoundParameter, $ExecutionContext)
@@ -67,49 +69,79 @@
         /// <param name="ast">
         /// The abstract syntax tree.
         /// </param>
-        /// <param name="fakeBoundParameter">
-        /// The fake bound parameter.
+        /// <param name="fakeBoundParameters">
+        /// a Hashtable with the parameters already specified on the command line.
         /// </param>
         /// <param name="intrinsics">provides access to PowerShell session state</param>
         /// <returns>
         /// The <see cref="IEnumerable"/>.
         /// </returns>
-        public static IEnumerable<CompletionResult> Complete(string command, string parameterName, string wordToComplete, CommandAst ast, string fakeBoundParameter, EngineIntrinsics intrinsics)
+        public static IEnumerable<CompletionResult> Complete(string command, string parameterName, string wordToComplete, CommandAst ast, Hashtable fakeBoundParameters, EngineIntrinsics intrinsics)
         {
-            switch (command)
+            var currentDirectory = intrinsics.SessionState.Path.CurrentFileSystemLocation.ProviderPath;
+            var param = command + ":" + parameterName;
+
+            switch (param)
             {
-                case "Switch-GitBranch":
-                    switch (parameterName)
-                    {
-                        case "Branch":
-                            return GetLocalBranchesCompletions(
-                                intrinsics.SessionState.Path.CurrentFileSystemLocation.ProviderPath, 
-                                wordToComplete);
-                        default:
-                            return null;
-                    }     
+                case "Switch-GitBranch:Branch":
+                    return GetLocalBranchesCompletions(currentDirectory, wordToComplete);
+
+                case "Add-GitItem:Path":
+                    return GetModifiedItems(currentDirectory, wordToComplete);
+
+                case "Remove-GitItem:Path":
+                    return fakeBoundParameters.ContainsKey("Cached")
+                               ? GetStagedItems(currentDirectory, wordToComplete)
+                               : null;
 
                 default:
                     return null;
-            }            
+            }
         }
 
         /// <summary>
-        /// The CompletionResults for all branches except the current one
+        /// The get staged items completion result.
         /// </summary>
-        /// <param name="fullname">
-        /// the path to find branches in.
+        /// <param name="workingDirectory">
+        /// The working directory.
+        /// </param>
+        /// <param name="wordToComplete">
+        /// The word to complete.
         /// </param>
         /// <returns>
         /// The <see cref="IEnumerable"/>.
         /// </returns>
-        public static IEnumerable<CompletionResult> GetAllBranches(string fullname)
-        {            
-            var repo = GitRepositoryFactory.Instance.GetRepository(fullname);
-            return from b in repo.Branches
-                       where !b.IsCurrentRepositoryHead
-                       select new CompletionResult(b.Name, b.Name, CompletionResultType.ParameterValue, b.CanonicalName);
+        private static IEnumerable<CompletionResult> GetStagedItems(string workingDirectory, string wordToComplete)
+        {
+            var repo = GitRepositoryFactory.Instance.GetRepository(workingDirectory);
+            return from s in repo.Index.RetrieveStatus()
+                   where (s.State.HasFlag(FileStatus.Staged) || 
+                            s.State.HasFlag(FileStatus.StagedTypeChange)) &&
+                          s.FilePath.StartsWith(wordToComplete, StringComparison.OrdinalIgnoreCase)
+                   select new CompletionResult(s.FilePath, s.FilePath, CompletionResultType.ParameterValue, s.FilePath);
         }
+
+        /// <summary>
+        /// The get modified items completion result.
+        /// </summary>
+        /// <param name="workingDirectory">
+        /// The working directory.
+        /// </param>
+        /// <param name="wordToComplete">
+        /// The word to complete.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
+        private static IEnumerable<CompletionResult> GetModifiedItems(string workingDirectory, string wordToComplete)
+        {
+            var repo = GitRepositoryFactory.Instance.GetRepository(workingDirectory);
+            return from s in repo.Index.RetrieveStatus()
+                   where s.State.HasFlag(FileStatus.Modified) &&
+                         s.FilePath.StartsWith(wordToComplete, StringComparison.OrdinalIgnoreCase)
+                   select new CompletionResult(s.FilePath, s.FilePath, CompletionResultType.ParameterValue, s.FilePath);
+        }
+
 
         /// <summary>
         /// The completion for local branches except the current.
@@ -123,7 +155,7 @@
         /// <returns>
         /// The <see cref="IEnumerable"/>.
         /// </returns>        
-        public static IEnumerable<CompletionResult> GetLocalBranchesCompletions(string path, string wordToComplete)
+        private static IEnumerable<CompletionResult> GetLocalBranchesCompletions(string path, string wordToComplete)
         {
             var repo = GitRepositoryFactory.Instance.GetRepository(path);
             if (string.IsNullOrEmpty(wordToComplete))

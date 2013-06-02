@@ -1,5 +1,6 @@
 namespace PoshGit.Commands
-{    
+{
+    using System.Linq;
     using System.Management.Automation;
 
     using LibGit2Sharp;
@@ -14,19 +15,32 @@ namespace PoshGit.Commands
     public sealed class GetGitStatusCommand : GitCommandBase
     {
         /// <summary>
+        /// Gets or sets whether to include ignored files.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter Ignored { get; set; }
+
+        /// <summary>
+        /// Gets or sets the non staged.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter NonStaged { get; set; }
+
+        /// <summary>
         /// The process record.
         /// </summary>
         protected override void ProcessRecord()
         {
             var statusPath = LiteralPath;
-
-            var filterpath = statusPath;
-
-            var repo = GetLiteralPathRepository();            
-            using (var statusEnumerator = GitStatusHelper.GetStatusEnumerator(repo, statusPath, filterpath))
+            
+            var repo = GetLiteralPathRepository();
+            var status = GitStatusHelper.GetStatusEnumerator(repo, statusPath);
+            if (NonStaged)
             {
-                WriteObject(statusEnumerator.Status, true);
+                status = status.Where(s => s.State.HasFlag(FileStatus.Modified));
             }
+
+            WriteObject(Ignored ? status : status.Where(s => s.State != FileStatus.Ignored), true);
         }        
     }
 }
