@@ -53,7 +53,7 @@
             var remote = repo.Network.Remotes.First(r => r.Name == Remote);
             if (Reference == null)
             {
-                Reference = (from b in repo.Branches where b.IsCurrentRepositoryHead select b.Name).ToArray();
+                Reference = (from b in repo.Branches where b.IsCurrentRepositoryHead select b.Tip.Sha).ToArray();
             }
 
             if (ShouldProcess(string.Join(", ", Reference), "Publish-GitBranch"))
