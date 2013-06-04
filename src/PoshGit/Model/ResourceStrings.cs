@@ -1,6 +1,5 @@
 ﻿namespace PoshGit.Model
 {
-    using System;
     using System.Diagnostics.Contracts;
     using System.Globalization;
 
@@ -23,7 +22,8 @@
         /// </returns>
         public static string Format(string format, object obj)
         {
-            Contract.Requires(!string.IsNullOrEmpty(format));            
+            Contract.Requires(!string.IsNullOrEmpty(format));
+            Contract.Requires(obj != null);
             return string.Format(CultureInfo.CurrentCulture, format, obj);
         }
 
@@ -44,7 +44,9 @@
         /// </returns>
         public static string Format(string format, object obj, object obj1)
         {
-            Contract.Requires(!String.IsNullOrEmpty(format));
+            Contract.Requires(!string.IsNullOrEmpty(format));
+            Contract.Requires(obj != null);
+            Contract.Requires(obj1 != null);
             return string.Format(CultureInfo.CurrentCulture, format, obj, obj1);
         }
     }

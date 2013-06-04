@@ -27,6 +27,7 @@ Set-Alias ggi Get-GitItem
 Set-Alias ggc Get-GitContent
 Set-Alias ngr New-GitRepository
 Set-Alias cpgr Copy-GitRepository
+Set-Alias ngb New-GitBranch
 Set-Alias swgb Switch-GitBranch
 Set-Alias agi Add-GitItem
 Set-Alias rgi Remove-GitItem

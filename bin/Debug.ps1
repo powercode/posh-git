@@ -8,3 +8,5 @@ if (test-path libgit2sharp_clone)
 }
 #Copy-GitRepository libgit2sharp libgit2sharp_clone
 cd posh-git
+
+$r = new-object LibGit2Sharp.Repository "$pwd\.git"

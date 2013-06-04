@@ -43,12 +43,17 @@
         {
             Contract.Requires(statusEntry != null);            
             var state = statusEntry.State;
-            if (state.HasFlag(FileStatus.Added) || state.HasFlag(FileStatus.Staged))
+            if (state == FileStatus.Untracked)
             {
-                return GitStatus.ToBeCommitted;
+                return GitStatus.Untracked;                
             }
 
-            return state.HasFlag(FileStatus.Modified) ? GitStatus.NotStagedForCommit : GitStatus.Untracked;
+            if (state.HasFlag(FileStatus.Modified) || state.HasFlag(FileStatus.Missing) || state.HasFlag(FileStatus.TypeChanged))
+            {
+                return GitStatus.NotStagedForCommit;
+            }
+
+            return GitStatus.ToBeCommitted;            
         }
     }
 }

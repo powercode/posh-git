@@ -22,7 +22,7 @@
         /// </summary>
         [Alias("PSPath")]
         [Parameter(ValueFromPipelineByPropertyName = true)]
-        public string LiteralPath
+        public string RepositoryPath
         {
             get
             {
@@ -59,9 +59,9 @@
         /// <returns>
         /// The <see cref="Repository"/>.
         /// </returns>
-        protected Repository GetLiteralPathRepository()
+        protected Repository GetRepositoryPathRepository()
         {
-            return GitRepositoryFactory.Instance.GetRepository(LiteralPath);
+            return GitRepositoryFactory.Instance.GetRepository(RepositoryPath);
         } 
     }
 }

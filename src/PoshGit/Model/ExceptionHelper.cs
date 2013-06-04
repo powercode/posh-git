@@ -1,5 +1,7 @@
 ﻿namespace PoshGit.Model
 {
+    using System.Diagnostics.Contracts;
+
     /// <summary>
     /// The exception helper.
     /// </summary>
@@ -12,9 +14,11 @@
         /// The full name.
         /// </param>
         /// <exception cref="PathIsNotRepositoryException">         
+        /// The exception thrown is 
         /// </exception>
         public static void ThrowInvalidRepositoryPath(string fullname)
         {
+            Contract.Requires(fullname != null);
             throw new PathIsNotRepositoryException(fullname);
         }
     }

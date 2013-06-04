@@ -15,7 +15,7 @@ namespace PoshGit.Tests
             {
                 ps.AddCommand("Get-GitStatus");
                 var filePath = Path.Combine(StandardTestRepoWorkingDirPath, "new_tracked_file.txt");
-                ps.AddParameter("LiteralPath", filePath);
+                ps.AddParameter("Repository", filePath);
                 var output = ps.Invoke<StatusEntry>();
                 Assert.Equal(1, output.Count);
                 Assert.Equal(FileStatus.Added, output[0].State);

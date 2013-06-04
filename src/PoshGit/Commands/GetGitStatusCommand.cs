@@ -31,9 +31,9 @@ namespace PoshGit.Commands
         /// </summary>
         protected override void ProcessRecord()
         {
-            var statusPath = LiteralPath;
+            var statusPath = RepositoryPath;
             
-            var repo = GetLiteralPathRepository();
+            var repo = GetRepositoryPathRepository();
             var status = GitStatusHelper.GetStatusEnumerator(repo, statusPath);
             if (NonStaged)
             {

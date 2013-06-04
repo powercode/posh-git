@@ -59,40 +59,39 @@ function Write-Prompt($Object, $ForegroundColor, $BackgroundColor = -1) {
     }
 }
 
-function Write-GitStatus($status) {
+function Write-GitStatus([LibGit2Sharp.RepositoryStatus] $status, [LibGit2Sharp.Branch] $branchInfo) {
     $s = $global:GitPromptSettings
     if ($status -and $s) {
         Write-Prompt $s.BeforeText -BackgroundColor $s.BeforeBackgroundColor -ForegroundColor $s.BeforeForegroundColor
 
         $branchBackgroundColor = $s.BranchBackgroundColor
         $branchForegroundColor = $s.BranchForegroundColor
-        if ($status.BehindBy -gt 0 -and $status.AheadBy -gt 0) {
+        if ($branchInfo.BehindBy -gt 0 -and $branchInfo.AheadBy -gt 0) {
             # We are behind and ahead of remote
             $branchBackgroundColor = $s.BranchBehindAndAheadBackgroundColor
             $branchForegroundColor = $s.BranchBehindAndAheadForegroundColor
-        } elseif ($status.BehindBy -gt 0) {
+        } elseif ($branchInfo.BehindBy -gt 0) {
             # We are behind remote
             $branchBackgroundColor = $s.BranchBehindBackgroundColor
             $branchForegroundColor = $s.BranchBehindForegroundColor
-        } elseif ($status.AheadBy -gt 0) {
+        } elseif ($branchInfo.AheadBy -gt 0) {
             # We are ahead of remote
             $branchBackgroundColor = $s.BranchAheadBackgroundColor
             $branchForegroundColor = $s.BranchAheadForegroundColor
         }
 
-        Write-Prompt $status.Branch -BackgroundColor $branchBackgroundColor -ForegroundColor $branchForegroundColor
+        Write-Prompt $branchInfo.Name -BackgroundColor $branchBackgroundColor -ForegroundColor $branchForegroundColor
 
-        if($s.EnableFileStatus -and $status.HasIndex) {
-            Write-Prompt $s.BeforeIndexText -BackgroundColor $s.BeforeIndexBackgroundColor -ForegroundColor $s.BeforeIndexForegroundColor
-
-            if($s.ShowStatusWhenZero -or $status.Index.Added) {
-              Write-Prompt " +$($status.Index.Added.Count)" -BackgroundColor $s.IndexBackgroundColor -ForegroundColor $s.IndexForegroundColor
+        if($s.EnableFileStatus -and $status.IsDirty) {
+            Write-Prompt $s.BeforeIndexText -BackgroundColor $s.BeforeIndexBackgroundColor -ForegroundColor $s.BeforeIndexForegroundColor            
+            if($s.ShowStatusWhenZero -or $status.Added) {
+              Write-Prompt " +$($status.Added.Count)" -BackgroundColor $s.IndexBackgroundColor -ForegroundColor $s.IndexForegroundColor
             }
-            if($s.ShowStatusWhenZero -or $status.Index.Modified) {
-              Write-Prompt " ~$($status.Index.Modified.Count)" -BackgroundColor $s.IndexBackgroundColor -ForegroundColor $s.IndexForegroundColor
+            if($s.ShowStatusWhenZero -or $status.Modified) {
+              Write-Prompt " ~$($status.Modified.Count)" -BackgroundColor $s.IndexBackgroundColor -ForegroundColor $s.IndexForegroundColor
             }
-            if($s.ShowStatusWhenZero -or $status.Index.Deleted) {
-              Write-Prompt " -$($status.Index.Deleted.Count)" -BackgroundColor $s.IndexBackgroundColor -ForegroundColor $s.IndexForegroundColor
+            if($s.ShowStatusWhenZero -or $status.Removed) {
+              Write-Prompt " -$($status.Removed.Count)" -BackgroundColor $s.IndexBackgroundColor -ForegroundColor $s.IndexForegroundColor
             }
 
             if ($status.Index.Unmerged) {
@@ -104,7 +103,7 @@ function Write-GitStatus($status) {
             }
         }
 
-        if($s.EnableFileStatus -and $status.HasWorking) {
+        if($s.EnableFileStatus -and $status.W) {
             if($s.ShowStatusWhenZero -or $status.Working.Added) {
               Write-Prompt " +$($status.Working.Added.Count)" -BackgroundColor $s.WorkingBackgroundColor -ForegroundColor $s.WorkingForegroundColor
             }
@@ -120,7 +119,7 @@ function Write-GitStatus($status) {
             }
         }
 
-        if ($status.HasUntracked) {
+        if ($status.Untracked.Count) {
             Write-Prompt $s.UntrackedText -BackgroundColor $s.UntrackedBackgroundColor -ForegroundColor $s.UntrackedForegroundColor
         }
 
@@ -146,6 +145,7 @@ function Global:Write-VcsStatus { $Global:VcsPromptStatuses | foreach { & $_ } }
 
 # Add scriptblock that will execute for Write-VcsStatus
 $Global:VcsPromptStatuses += {
-    $Global:GitStatus = Get-GitStatus
-    Write-GitStatus $GitStatus
+    $Global:GitStatus = Get-GitRepositoryStatus
+    $branchInfo = Get-GitBranch | Where IsCurrentRepositoryHead 
+    Write-GitStatus $GitStatus $branchInfo
 }

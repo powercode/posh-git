@@ -65,7 +65,7 @@ namespace PoshGit.Commands
             var takeCount = PagingParameters.First == ulong.MaxValue ? int.MaxValue :
                                             (int)PagingParameters.First;
 
-            var repo = GetLiteralPathRepository();
+            var repo = GetRepositoryPathRepository();
             var commitLog = repo.Commits.QueryBy(filter);
             var commits = commitLog.AsEnumerable();            
             if (PagingParameters.IncludeTotalCount)

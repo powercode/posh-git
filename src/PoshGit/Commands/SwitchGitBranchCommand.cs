@@ -24,7 +24,7 @@
         /// </summary>
         protected override void ProcessRecord()
         {
-            var repo = GetLiteralPathRepository();
+            var repo = GetRepositoryPathRepository();
             try
             {
                 repo.Checkout(Branch, CheckoutOptions.None, OnProgress);

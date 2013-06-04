@@ -25,7 +25,7 @@ namespace PoshGit.Commands
         /// </summary>
         protected override void ProcessRecord()
         {            
-            var repo = GetLiteralPathRepository();
+            var repo = GetRepositoryPathRepository();
             WriteObject(All ? repo.Branches : repo.Branches.Where(b => b.IsRemote == false), true);            
         }
     }

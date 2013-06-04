@@ -25,7 +25,7 @@
             using (var ps = PowerShell.Create())
             {
                 ps.AddCommand("Get-GitLog");
-                ps.AddParameter("LiteralPath", path);
+                ps.AddParameter("Repository", path);
                 var output = ps.Invoke<Commit>();
                 Assert.Equal(9, output.Count());
 
@@ -44,7 +44,7 @@
             using (var ps = PowerShell.Create())
             {
                 ps.AddCommand("Get-GitLog");
-                ps.AddParameter("LiteralPath", path);
+                ps.AddParameter("Repository", path);
                 ps.AddParameter("Reference", "test");
                 var output = ps.Invoke<Commit>();
                 Assert.Equal(2, output.Count());
@@ -64,7 +64,7 @@
             using (var ps = PowerShell.Create())
             {
                 ps.AddCommand("Get-GitLog");
-                ps.AddParameter("LiteralPath", path);
+                ps.AddParameter("Repository", path);
                 ps.AddParameter("First", 4);
                 ps.AddParameter("Skip", 2);
                 ps.AddParameter("Reference", "master");

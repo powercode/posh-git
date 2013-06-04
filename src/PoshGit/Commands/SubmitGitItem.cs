@@ -40,7 +40,7 @@
         /// </summary>
         protected override void ProcessRecord()
         {
-            var repo = GetLiteralPathRepository();
+            var repo = GetRepositoryPathRepository();
             if (Author == null)
             {
                 var userName = repo.Config.Get<string>("user.name").Value;

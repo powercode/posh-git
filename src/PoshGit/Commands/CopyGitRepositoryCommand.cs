@@ -223,5 +223,14 @@ namespace PoshGit.Commands
             progressCollection.Dispose();
             cancellationTokenSource.Dispose();
         }
+
+        [ContractInvariantMethod]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for code contracts.")]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(cancellationTokenSource != null);
+            Contract.Invariant(progressCollection != null);
+        }
+
     }
 }
